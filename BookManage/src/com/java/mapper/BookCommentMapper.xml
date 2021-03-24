@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.BookCommentMapper">
+	
+	<!-- 根据书籍id增加读者评论 -->
+	<insert id="insertUserComment" parameterType="com.java.entity.BookComment">
+		insert into bookcomment VALUES(#{id},#{userName},#{comment})
+	</insert>
+	<!-- 根据书籍id查询读者评论 -->
+	<select id="queryUserComment" parameterType="int" resultType="com.java.entity.BookComment">
+		select * from bookcomment where id = #{id}
+	</select>
+</mapper>

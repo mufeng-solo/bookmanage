@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.DataMapper">
+	
+	<!-- 查询数据-->				
+	<select id="queryData" resultType="com.java.entity.Data" parameterType="int">
+		select * from t_data where id = #{id} 
+	</select>
+	
+	<!-- 更改数据pagesize -->
+	<update id="updatePagesize" parameterType="int">
+		update t_data set pagesize = #{pagesize} where id = 1;
+	</update>
+	
+	<!-- 更改还书日期 -->
+	<update id="updateReturnDate" parameterType="int">
+		update t_data set returndate = #{returndate} where id = 1;
+	</update>
+	
+	<!-- 更改罚金 -->
+	<update id="updateFine" parameterType="int">
+		update t_data set fine = #{fine} where id = 1;
+	</update>
+	
+	<!-- 更改style -->
+	<update id="updateStyle" parameterType="String">
+		update t_data set style = #{style} where id = 1;
+	</update>
+</mapper>

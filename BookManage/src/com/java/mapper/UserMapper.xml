@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.UserMapper">
+	
+	<!-- 根据用户名查询用户 -->				
+	<select id="queryUserByUname" resultType="com.java.entity.User" parameterType="String">
+		select * from User where uname = #{uname} 
+	</select>
+	<!-- 增加用户 -->
+	<insert id="addUser" parameterType="com.java.entity.User">
+		insert into user(uname,upwd,lendbook,islogin) values(#{uName},#{uPwd},#{lendBook},#{isLogin}) 
+	</insert>
+	
+	<!-- 更改用户的lendbook -->
+	<update id="updateUserLendbook" parameterType="com.java.entity.User">
+		update user set lendbook = #{lendBook} where id = #{id}
+	</update>
+	
+	<!-- 查询所有用户 -->
+	<select id="queryAllUser" resultType="com.java.entity.User">
+		select * from User
+	</select>
+	
+	<!-- 用户登录（添加登录状态） -->
+	<update id="userLogin" parameterType="String">
+		update user set islogin = 'true' where uname = #{uname}
+	</update>
+	<!-- 用户退出（添加离线状态） -->
+	<update id="userLogout" parameterType="String">
+		update user set islogin = 'false' where uname = #{uname}
+	</update>
+	
+	<!-- 查询在线用户 -->
+	<select id="queryUserOnline" resultType="com.java.entity.User">
+		select * from user where islogin = 'true'
+	</select>
+	
+	<!-- 服务器关闭，用户下线 -->
+	<update id="forceLogout">
+		update user set islogin = 'false'
+	</update>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 加载db.properties 
+		设置全局参数
+	-->
+	<bean id="config" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<!-- <context:property-placeholder location="classpath:db.properties" -->
+		<property name="locations">
+			<array>
+				<value>classpath:db.properties</value>
+			</array>
+		</property>
+	</bean>
+	<!-- 配置数据库信息 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+		<property name="maxActive" value="${maxActive}"></property> 
+		<property name="maxIdle" value="${maxIdle}"></property> 
+	</bean>
+	
+	<!-- 在springIOC容器创建mybatis的核心类SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据源 --><property name="dataSource" ref="dataSource"></property>
+		<!-- mapper.xml --><property name="mapperLocations" value="classpath:com/java/mapper/*.xml"></property>
+	</bean>
+	
+	<!-- spring整合mybatis （将mybatis的sqlSessionFactory交给Spring）-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<property name="basePackage" value="com.java.mapper"></property>
+	</bean>
+	
+	<bean id="userService" class="com.java.service.impl.UserServiceImpl">
+		<property name="userMapper" ref="userMapper"></property>
+	</bean>
+	
+	<bean id="bookService" class="com.java.service.impl.BookServiceImpl">
+		<property name="bookMapper" ref="bookMapper"></property>
+	</bean>
+	
+	<bean id="adminService" class="com.java.service.impl.AdminServiceImpl">
+		<property name="adminMapper" ref="adminMapper"></property>
+	</bean>
+	
+	<bean id="userLendService" class="com.java.service.impl.UserLendServiceImpl">
+		<property name="userLendMapper" ref="userLendMapper"></property>
+	</bean>
+	
+	<bean id="bookInfoService" class="com.java.service.impl.BookInfoServiceImpl">
+		<property name="bookInfoMapper" ref="bookInfoMapper"></property>
+	</bean>
+	
+	<bean id="bookCommentService" class="com.java.service.impl.BookCommentServiceImpl">
+		<property name="bookCommentMapper" ref="bookCommentMapper"></property>
+	</bean>
+	
+	<bean id="dataService" class="com.java.service.impl.DataServiceImpl">
+		<property name="dataMapper" ref="dataMapper"></property>
+	</bean>
+	
+</beans>

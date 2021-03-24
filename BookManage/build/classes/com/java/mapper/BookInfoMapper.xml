@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.BookInfoMapper">
+	
+	<!-- 根据书的序号增加书籍简介 -->
+	<insert id="insertBookinfoById" parameterType="com.java.entity.BookInfo">
+		INSERT into bookinfo(id,info) values(#{id},#{info})
+	</insert>
+	
+	<!-- 根据书的序号查询书籍简介和评论 -->
+	<select id="queryBookcomById" parameterType="int" resultType="com.java.entity.BookInfo">
+		SELECT * from bookinfo where id=#{id}
+	</select>
+	
+	<!-- 根据书的序号更改书籍简介 -->
+	<insert id="updateBookinfoById" parameterType="com.java.entity.BookInfo">
+		UPDATE bookinfo set info=#{info} where id=#{id}
+	</insert>
+	
+	
+	
+		
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.AdminMapper">
+	
+	<!-- 根据用户名查询管理员-->				
+	<select id="queryAdminByAname" resultType="com.java.entity.Admin" parameterType="String">
+		select * from admin where aname = #{aname} 
+	</select>
+	
+	<!-- 查询所有管理员 -->
+	<select id="queryAllAdmin" resultType="com.java.entity.Admin">
+		select * from admin;
+	</select>
+	
+	<!-- 删除指定的管理员 -->
+	<delete id="deleteManager" parameterType="String">
+		DELETE from admin where aname = #{aname};
+	</delete>
+	
+	<!-- 添加管理员 -->
+	<insert id="addManager" parameterType="com.java.entity.Admin">
+		insert into admin(aname,apwd) values(#{aname},#{apwd})
+	</insert>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.BookMapper">
+	
+	<!-- 分页查询书籍 -->				
+	<select id="queryBookByPage" resultType="com.java.entity.Book" parameterType="com.java.entity.Temp">
+		select * from book limit #{num1},#{num2} 
+	</select>
+	
+	<!-- 获取所有书籍数量 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from book
+	</select>
+	
+	<!-- 根据书籍id增加书籍库存 -->
+	<update id="adminAddBookNum" parameterType="int">
+		update book set number=number+1,stock=stock+1 where bookid=#{id}
+	</update>
+	
+	<!-- 根据书籍id删除书籍库存 -->
+	<update id="adminDeleteBookNum" parameterType="int">
+		update book set number=number-1,stock=stock-1 where bookid=#{id}
+	</update>
+	
+	<!-- 增加书籍 -->
+	<insert id="adminAddBook" parameterType="com.java.entity.Book">
+		insert into book values(#{bookId},#{bookName},#{bookType},#{press},#{author},#{price},#{number},#{lend},#{stock},#{location})
+	</insert>
+	
+	<!-- 处理用户借阅书籍
+	根据书籍id处理书籍的number、lend、stock -->
+	<update id="userLendBook" parameterType="int">
+		update book set number=number-1,lend=lend+1,stock=stock-1 where bookid=#{id}
+	</update>
+	
+	<!-- 根据书籍的id获取书籍名称 -->
+	<select id="queryBooknameById" resultType="String" parameterType="int">
+		select bookname from book where bookid=#{id}
+	</select>
+	
+	<!-- 根据书名模糊查询图书location -->
+	<select id="userSearchBook" parameterType="String" resultType="com.java.entity.Book">
+		select * from book where bookname like '%${value}%'
+	</select>
+	
+	<!-- 根据作者名模糊查询图书 -->
+	<select id="userSearchBookByAuthor" parameterType="String" resultType="com.java.entity.Book">
+		select * from book where author like '%${value}%'
+	</select>
+	
+	<!-- 根据书名查询书籍 -->
+	<select id="queryBookByBookname" parameterType="String" resultType="com.java.entity.Book">
+		select * from book where bookname = #{bookname}
+	</select>
+	
+	<!-- 还书操作 -->
+	<update id="userReturnBook" parameterType="int">
+		update book set number=number+1,lend = lend-1,stock=stock+1 where bookid=#{id}
+	</update>
+	
+	<!-- 根据书籍的借出数量降序查找书籍 -->
+	<select id="queryAllBookByLendDesc" parameterType="String" resultType="com.java.entity.Book">
+		select * from book order by lend desc;
+	</select>
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>BookManage</display-name>
+  <welcome-file-list>
+    <welcome-file>/views/result.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+   <!-- 配置解决post提交方式乱码的过滤器 -->
+  <filter>
+  	<filter-name>encoding</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</init-param>
+  </filter>
+    <filter-mapping>
+  	<filter-name>encoding</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping> 
+  
+    <!-- 配置过滤器(过滤访问后台管理的无效访问) -->
+  <filter>
+    <filter-name>MyFilter</filter-name>
+    <filter-class>com.java.filter.MyFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage_system.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage_bookinfo.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage_book.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage_return.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/views/manage_user.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+ 
+ <!--  配置监听器，监听服务器关闭  -->
+	<listener>
+	    <listener-class>com.java.listener.TomcatListen</listener-class>
+	</listener> 
+
+ 
+  <!-- spring -->
+  <!-- needed for ContextLoaderListener -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- Bootstraps the root web application context before servlet initialization -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- springMVC -->
+	<!-- The front controller of this Spring Web application, responsible for handling all application requests -->
+	<servlet>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:applicationContext-Controller.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 设置session生命周期 -->
+	<!-- <session-config>
+		<session-timeout>1</session-timeout>
+	</session-config> -->
+	
+	<!-- 自定义错误页面 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/views/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/views/error.jsp</location>
+	</error-page>
+	
+</web-app>

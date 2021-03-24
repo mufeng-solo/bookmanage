@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="com.java.mapper.UserLendMapper">
+	
+	<!-- 插入借书数据 -->
+	<insert id="userLend" parameterType="com.java.entity.UserLendBook">
+		INSERT into userlendbook VALUES(#{userName},#{bookId},#{returnDate})
+	</insert>
+	
+	<!-- 删除借书数据（用户还书） -->
+	<delete id="userReturn" parameterType="com.java.entity.UserLendBook">
+		DELETE from userlendbook where username = #{userName} and bookid = #{bookId}
+	</delete>
+	
+	<!-- 根据姓名和书籍序号查询还书日期 -->
+	<select id="queryReturnDate" parameterType="com.java.entity.UserLendBook" resultType="String">
+		SELECT returndate from userlendbook where username=#{userName} and bookid=#{bookId}
+	</select>
+	
+	<!-- 查询借书信息（根据日期排序） -->
+	<select id="queryAllInfo" resultType="com.java.entity.UserLendBook">
+		select * from userlendbook ORDER BY returndate
+	</select>
+	
+	<!-- 查询借书信息（根据用户名排序） -->
+	<select id="queryAllInfoOrderByName" resultType="com.java.entity.UserLendBook">
+		select * from userlendbook ORDER BY username
+	</select>
+</mapper>
